@@ -12,12 +12,17 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
       - name: Install Build Dependencies
         run: |
           apt-get update
-          apt-get install -y make git libpng-dev
+          apt-get install -y make git libpng-dev gcc
 
+      - name: Install Missing AGBCC Compiler
+        run: |
+          git clone https://github.com /tmp/agbcc
+          cd /tmp/agbcc
+          ./build.sh
+          ./install.sh /opt/devkitpro/devkitARM
       - name: Build ROM
         run: |
           export DEVKITPRO=/opt/devkitpro
@@ -30,4 +35,3 @@ jobs:
         with:
           name: compiled-rom
           path: "*.gba"
-
