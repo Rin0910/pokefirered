@@ -2,6 +2,9 @@ name: Build Pokefirered ROM
 
 on: [push, pull_request]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,6 +20,9 @@ jobs:
 
       - name: Build ROM
         run: |
+          export DEVKITPRO=/opt/devkitpro
+          export DEVKITARM=/opt/devkitpro/devkitARM
+          export PATH=$DEVKITARM/bin:$PATH
           make -j$(nproc)
 
       - name: Upload Finished GBA ROM
